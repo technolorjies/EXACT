@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exact Services - Engineering Excellence</title>
+
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/plugins/animation.gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        /* ========================================
+           COLOR & THEME VARIABLES
+           ======================================== */
+        :root {
+            /* Primary Colors */
+            --primary-purple: #4f1a93;
+            --slider-bg: #000000;
+
+            /* Text Colors */
+            --text-dark: #333333;
+            --text-muted: #555555;
+            --text-gray: #908d8d;
+
+            /* Background Colors */
+            --bg-light: #f9f9f9;
+            --bg-body: #ffffff;
+            --bg-gradient: linear-gradient(135deg, #f0f4ff 0%, #d9e2ff 100%);
+            --pillars-bg: #f4f7ff;
+
+
+            /* Component Colors */
+            --header-bg: rgba(255, 255, 255, 0.85);
+            --nav-bg: #333;
+            --nav-text: #ccc;
+            --card-bg: #ffffff;
+            --input-bg: #ffffff;
+            --accent-green: #10b981;
+
+            /* Animation */
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Dark Theme Override */
+        body.dark-theme {
+            --primary-purple: #0199a1;
+            --text-dark: #f0f0f0;
+            --text-muted: #cccccc;
+            --bg-light: #1a1a1a;
+            --bg-body: #121212;
+            --header-bg: rgba(18, 18, 18, 0.85);
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --pillars-bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --nav-bg: #444;
+            --card-bg: #1e1e1e;
+            --input-bg: #2a2a2a;
+        }
+
+        /* Dark Mode Specific for Pillar Cards */
+        body.dark-theme .pillar-card h3,
+        body.dark-theme .pillar-card p,
+        body.dark-theme .pillar-card li {
+            color: #cccccc !important;
+        }
+
+        /* ========================================
+           GLOBAL STYLES
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+        }
+
+
+        /* ========================================
+           HEADER & NAVIGATION
+           ======================================== */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2px 5%;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            width: 3rem;
+        }
+
+        .logo-desktop {
+            display: block;
+            width: 10rem;
+        }
+
+        .logo-mobile {
+            display: none;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav {
+            background: var(--nav-bg);
+            border-radius: 30px;
+            padding: 5px 15px;
+            display: flex;
+            gap: 5px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--nav-text);
+            font-size: 13px;
+            padding: 5px 20px;
+            transition: var(--transition);
+        }
+
+        nav a.active {
+            background: #ffffff;
+            color: black;
+            border-radius: 20px;
+        }
+
+        nav a:hover {
+            background: #ffffff21;
+            color: #aaa;
+            border-radius: 20px;
+        }
+
+        /* ========================================
+           HAMBURGER MENU & THEME TOGGLE
+           ======================================== */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 1.5px;
+            background: var(--nav-bg);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .hamburger.open span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        .theme-toggle {
+            background: var(--nav-bg);
+            width: 50px;
+            height: 21px;
+            border-radius: 15px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            border: none;
+        }
+
+        .toggle-ball {
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        body.dark-theme .toggle-ball {
+            transform: translateX(22px);
+        }
+
+        body.dark-theme .hamburger span {
+            background: #fff;
+        }
+
+
+        /* ========================================
+              SECTION TITLE
+           ======================================== */
+        .section_title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            background: var(--bg-gradient);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center;
+            padding: 40px 5% 0 5%;
+            min-height: 85vh;
+            overflow: hidden;
+        }
+
+        .hero-left span {
+            color: var(--primary-purple);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .hero-left h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 0.9;
+            margin-top: 10px;
+        }
+
+        .hero-left h1 em {
+            font-style: italic;
+            color: var(--text-gray);
+            display: block;
+        }
+
+        .hero-center {
+            display: flex;
+            justify-content: center;
+            align-self: end;
+        }
+
+        .hero-center img {
+            max-width: 80%;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+            opacity: 1;
+            transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .hero-right h2 {
+            font-size: 2.2rem;
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        .hero-right h2 b {
+            color: var(--primary-purple);
+        }
+
+        /* ========================================
+           BUTTONS
+           ======================================== */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .btn_hero{
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            flex: 1;
+        }
+
+        .btn_hero:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 26, 147, 0.3);
+        }
+        
+        .btn {
+            width: fit-content;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            flex: 1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 26, 147, 0.3);
+        }
+
+        .btn-primary {
+            background: var(--primary-purple);
+            color: white;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--primary-purple);
+            color: var(--primary-purple);
+            background: transparent;
+        }
+
+
+        /* ========================================
+           SECTION HEADERS & GENERAL STYLES
+           ======================================== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header span {
+            color: var(--primary-purple);
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        
+        /* ========================================
+           TEXT TYPING ON SCROLL
+           ======================================== */
+
+        /* Spacer to allow scrolling before the effect */
+        .spacer {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Essential styles from your styles.css */
+        .intro-section {
+            height: auto;
+            padding: 3rem 0;
+        }
+
+        #intro-text {
+            font-size: 5rem; /* Large impact font size */
+            color: var(--text-dark); /* Light gray color from your CSS */
+            text-align: center;
+            font-weight: 600;
+            min-height: 1.2em; /* Prevents layout shift as text appears */
+            margin: 0;
+        }
+
+
+        /* ========================================
+           ABOUT SECTION
+           ======================================== */
+        .about-section {
+            padding: 1px 50px 150px 50px;
+            background-color: var(--bg-light);
+            overflow-x: hidden; 
+        }
+
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-section h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .about__container-main {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 5rem;
+            text-align: left;
+        }
+
+        .img-side-main,
+        .content-side-main {
+            flex: 1;
+        }
+
+        .about__img img {
+            width: 100%;
+            border-radius: 2rem;
+            box-shadow: 7px 20px 30px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .badge {
+            border: 1px solid var(--text-gray);
+            padding: 5px 15px;
+            border-radius: 100px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* ========================================
+           SCROLL REVEAL ANIMATIONS
+           ======================================== */
+        .reveal-r,
+        .reveal-l,
+        .reveal-t,
+        .reveal-d {
+            opacity: 0;
+            transition: all 1.5s cubic-bezier(0.17, 0.55, 0.55, 1);
+        }
+
+        .reveal-r {
+            transform: translateX(80px);
+        }
+
+        .reveal-l {
+            transform: translateX(-80px);
+        }
+        
+        .reveal-t {
+            transform: translateY(-80px);
+        }
+        
+        .reveal-d {
+            transform: translateY(80px);
+        }
+
+        .reveal-r.active,
+        .reveal-l.active,
+        .reveal-t.active,
+        .reveal-d.active {
+            transform: translate(0, 0) !important;
+            opacity: 1 !important;
+        }
+
+        /* ========================================
+           ABOUT MODAL
+           ======================================== */
+        .about-modal {
+            visibility: hidden;
+            opacity: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .about-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            padding: 3.5rem;
+            max-width: 850px;
+            width: 100%;
+            max-height: 90vh; 
+            overflow-y: auto; 
+            transform: scale(0.9) translateY(30px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 5001;
+            scrollbar-width: thin;
+        }
+
+        .about-modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 1rem;
+        }
+
+        .modal-image-placeholder {
+            background: rgba(46, 26, 147, 0.05);
+            height: 200px;
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px dashed var(--primary-purple);
+            margin-top: 15px;
+        }
+
+        .modal-close {
+            position: sticky;
+            top: -20px; 
+            float: right;
+            border: none;
+            background: var(--card-bg);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-dark);
+            z-index: 100;
+            margin-bottom: -40px; 
+        }
+
+
+
+        /* ========================================
+           TEAM SECTION & STACKING CARDS
+           ======================================== */
+        .team-section {
+            padding: 100px 5%;
+            background-color: var(--bg-light);
+        }
+
+        #cards-container {
+            width: 95%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-bottom: 10vh;
+        }
+
+        .card {
+            position: sticky;
+            top: 10vh;
+            list-style: none;
+            padding-top: 20px;
+        }
+
+        .card__content {
+            background: var(--card-bg);
+            height: 80vh;
+            border-radius: 34px;
+            display: flex;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.2);
+            transition: filter 0.6s ease, transform 0.6s ease;
+            transform-origin: center top;
+        }
+
+        .card__image {
+            flex: 1.2;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .card__image img {
+            width: 100%;
+            object-fit: cover;
+            transition: transform 1.5s ease;
+        }
+
+        .card.active img {
+            transform: scale(1.08);
+        }
+
+        .card__info {
+            flex: 1;
+            padding: clamp(30px, 5vw, 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card__info h2 {
+            font-size: 2rem;
+        }
+
+        /* Tag Styles */
+        .tag-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: rgba(134, 134, 139, 0.1);
+            color: var(--text-dark);
+            border: 1px solid #a89eda36;
+        }
+
+        .tag--featured {
+            background: rgba(46, 26, 147, 0.2);
+            color: var(--primary-purple);
+        }
+
+
+        /* ========================================
+           EXPERTISE SECTION & IMAGE SLIDER
+           ======================================== */
+        .expertise-section {
+            padding: 100px 5%;
+            background-color: var(--bg-body);
+        }
+
+        .main-card {
+            background-color: var(--slider-bg);
+            width: 100%;
+            max-width: 1200px;
+            height: 650px;
+            margin: 0 auto;
+            border-radius: 32px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar {
+            width: 40%;
+            padding: 20px 20px;
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: transparent;
+        }
+
+        .tab {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 16px 24px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: fit-content;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .tab-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-circle {
+            min-width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1.5px solid #86868b;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 400;
+            color: #86868b;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1;
+            margin-right: 12px;
+        }
+
+        .tab.active .icon-circle {
+            transform: rotate(45deg);
+            border-color: #fff;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #f5f5f7;
+        }
+
+        .tab-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+            opacity: 0;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #dddddd;
+        }
+
+        .active .tab-content {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 12px;
+        }
+
+        .image-viewport {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .image-viewport::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.1) 100%);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .slide-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            z-index: 11;
+            transform: scale(1.2) translateX(30%);
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+        }
+
+        .slide-img.active {
+            opacity: 1;
+            transform: scale(1) translateX(0);
+            z-index: 12;
+        }
+
+        .slide-img.exit-left {
+            opacity: 0;
+            transform: scale(0.9) translateX(-30%);
+            z-index: 11;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.932);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 40;
+            transition: background 0.3s;
+        }
+
+
+/* ========================================
+           STRATEGIC PILLARS SECTION
+           ======================================== */
+        .pillars-section {
+            padding: 100px 5%;
+            background: var(--pillars-bg);
+        }
+
+        .pillars-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            max-width: 100%;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .pillars-left {
+            position: relative;
+        }
+
+        .pillars-left h2 {
+            font-size: 3rem;
+            margin: 20px 0;
+            line-height: 1.1;
+        }
+
+        .pillar_card_title {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .highlight-gradient {
+            background: linear-gradient(90deg, #01cfcf, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .pillar-card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            transition: all 0.5s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pillar-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #01cfcf65 0%, #7c3aed58 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transition: all 1.2s ease;
+        }
+
+        .pillar-card:hover::before {
+            opacity: 1;
+        }
+
+        .pillar-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary-purple);
+            position: relative;
+        }
+
+        .pillar-card h3 {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .pillar-card p,
+        .pillar-card ul {
+            margin-bottom: 0.2rem;
+            color: #3d3d3d;
+            font-size: 1rem;
+        }
+
+        .pillar-card ul {
+            list-style: disc;
+            text-align: left;
+            padding: 0 3rem 0 3rem;
+        }
+
+        .pillar-card li {
+            margin-bottom: 0.2rem;
+            color: #3d3d3d;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 992px) {
+            .pillars-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                
+            }
+
+            .pillars-left h2 {
+                font-size: 2rem;
+            }
+
+            .pillars-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+
+        /* ========================================
+           ACCOMPLISHMENTS SECTION (ACCORDION)
+           ======================================== */
+        .accomplishment-card {
+            background: var(--card-white);
+            width: 60%;
+            margin-left: 20%;
+            padding: 80px 20px 80px 20px;
+            border-top: 1px solid #33333385;
+            border-bottom: 1px solid #33333385;
+        }
+
+        .accordion-btn {
+            width: 100%;
+            padding: 20px;
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            margin-bottom: 10px;
+        }
+
+        .accordion-btn:hover {
+            opacity: 0.9;
+        }
+
+        .accordion-btn i {
+            transition: transform 0.4s ease;
+        }
+
+        .accordion-btn.active i {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            background: var(--card-bg);
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 15px;
+        }
+
+        .list-container {
+            list-style: none;
+            padding: 30px 0;
+            margin: 0;
+            color: #555555;
+        }
+    
+        .item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 15px;
+            align-items: flex-start;
+            padding: 0 10px;
+        }
+
+        .check-wrapper {
+            background-color: #ecfdf5;
+            border-radius: 50%;
+            min-width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .check-wrapper svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--accent-green);
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .content {
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text-dark);
+        }
+
+
+        /* ========================================
+           CONTACT SECTION
+           ======================================== */
+        .contact-section {
+            padding: 100px 5%;
+        }
+
+        .contact-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: var(--input-bg);
+            color: var(--text-dark);
+            outline: none;
+        }
+
+        /* ========================================
+           MODALS
+           ======================================== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content-success {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transform: scale(0.8);
+            transition: var(--transition);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal.active .modal-content-success {
+            transform: scale(1);
+        }
+
+        .modal i {
+            font-size: 50px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background: var(--nav-bg);
+            color: white;
+            padding: 80px 5% 40px 5%;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 50px;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 25px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+           ======================================== */
+        @media (max-width: 1100px) {
+            .hero-left h1 {
+                font-size: 3rem;
+            }
+
+            .hero-right h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-desktop {
+                display: none;
+            }
+
+            .logo-mobile {
+                display: block;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            nav {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 70px;
+                right: 5%;
+                width: 220px;
+                background: var(--nav-bg);
+                padding: 20px 10px;
+                border-radius: 20px;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: var(--transition);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                z-index: 1001;
+            }
+
+            nav.show {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-center {
+                grid-row: 2;
+                margin: 30px 0;
+            }
+
+            .hero-left h1 {
+                font-size: 3.5rem;
+            }
+            
+            .intro-section {
+                padding: 0rem 0rem 10rem 0rem;
+            }
+
+            #intro-text {
+                font-size: 3rem;
+            }
+
+            .about-section {
+                padding: 0px 10px 60px 10px;
+            }
+
+            .about-section h2 {
+                font-size: 2rem;
+            }
+
+            .about__container-main {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .content-side-main {
+                text-align: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                font-size: 0.8rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .main-card {
+                height: auto;
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 40px 20px;
+                order: 2;
+            }
+
+            .image-viewport {
+                position: relative;
+                height: 300px;
+                order: 1;
+            }
+
+            .modal-body {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .modal-content {
+                padding: 2.5rem 1.5rem;
+                border-radius: 1.5rem;
+            }
+
+            .card__content {
+                flex-direction: column;
+                height: auto;
+                min-height: 80vh;
+            }
+
+            .card__info,
+            .card__image {
+                height: 50%;
+            }
+
+            .accomplishment-card {
+                width: 100%;
+                margin-left: 0%;
+                border-top: 1px solid #33333385;
+                border-bottom: 1px solid #33333385;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img href="index.html" src="./img/logo2.png" alt="Exact Services Logo" class="logo logo-desktop" loading="lazy" onerror="this.style.display='none'">
+    <img href="index.html" src="./img/logo1.png" alt="Exact Services Logo" class="logo logo-mobile" loading="lazy" onerror="this.style.display='none'">
+    <div class="nav-container">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav id="navMenu">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#team">Our Team</a>
+            <a href="#expertise">Expertise</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+            <div class="toggle-ball"></div>
+        </button>
+    </div>
+</header>
+
+<main>
+    <section class="hero" id="home">
+        <div class="hero-left reveal-d">
+            <span>ENGINEERING THE FUTURE</span>
+            <h1>Precision. <em>Reliability.</em></h1>
+        </div>
+        <div class="hero-center reveal-l">
+            <img src="./img/home-img.png" alt="Engineering Team" loading="lazy">
+        </div>
+        <div class="hero-right">
+            <h2>We are <b>EXACT</b> in <br> <span id="typed-element"></span></h2>
+            <div class="btn-group">
+                <a href="#contact" class="btn_hero btn-primary reveal-l">Let's talk</a>
+                <a href="#expertise" class="btn_hero btn-outline reveal-r">Our Services</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="intro-section">
+            <p id="intro-text"></p>
+        </div>
+        <div class="about-container">
+            <h2 class="reveal-l highlight-gradient">We inspire and help our customers</h2>
+            <p class="reveal-r" style="transition-delay: 0.2s;">Our depth of expertise ensures our ability to deliver specialist knowledge and capability to a diverse range of clients while offering exceptional, result and relationship-driven service every time.</p>
+        </div>
+    </section>
+
+<section class="about-section" id="about">
+    <div class="about__container-main">
+        <div class="img-side-main reveal-l">
+            <div class="about__img">
+                <img src="./img/about.png" alt="About Exact Services">
+            </div>
+        </div>
+        <div class="content-side-main">
+            <div><span class="badge reveal-r">About Us</span></div>
+            <h1 class="reveal-l">Industry Expertise That Empowers</h1>
+            <p class="reveal-r">Exact Services is a multidisciplinary engineering company registered in Nigeria <strong>(RC 366085)</strong>. We deliver flexible, innovative, and cost-effective engineering solutions tailored to client needs. Driven by quality, safety, and customer satisfaction, our experienced and well-trained team applies disciplined processes and technical expertise to consistently deliver value and support our clients’ success.</p>
+            <div><a href="#" class="btn btn-outline  reveal-d" id="about-read-more" style="margin-top: 1.5rem;">Read More</a></div>
+        </div>
+    </div>
+</section>
+
+<div class="about-modal" id="aboutModal">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-content">
+        <button class="modal-close" id="closeAboutModal" title="Close">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="modal-body">
+            <div class="modal-column">
+                <span class="badge">About Exact Services LTD</span>
+                <h2 style="margin-top: 10px;">Industry Expertise <br>That Empowers</h2>
+                <p style="margin-top: 15px;">EXACT SERVICES (ESL) is a private limited liability company incorporated with Corporate Affairs Commission. ESL is one of the fast upcoming and integrated engineering, procurement, construction, maintenance, and oil and gas services company.</p>
+                <p style="margin-top: 15px;">We have participated in the execution of several engineering projects with major federal government agencies in Nigeria. ESL is focused on quality, cost-effective, innovative and cutting-edge solutions designed to meet the present day challenges of the Oil and Gas industry and other industrial markets in Nigeria.</p>
+            </div>
+                <div class="modal-image-placeholder">
+                     <img src="./img/about-internal.jpg" alt="Workplace" onerror="this.parentElement.innerHTML='<strong>ESL Workspace</strong>'">
+                </div>
+            <div class="modal-column">
+                <p>With a well grounded team of experience Engineers and other technical staff involved in oil and gas services, our clients are assured to expect the level of expertise they required.</p>
+                <p style="margin-top: 15px;">Our experience in the field of engineering maintenance as well as Oil and Gas industry enhance our performance and ability to meet our client expectation on time.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <section class="team-section" id="team">
+        <div class="section_title">
+            <div><span class="badge">Our Team</span></div>
+            <h1>Leadership Team</h1>
+        </div>
+
+        <ul id="cards-container">
+            <li class="card">
+                <div class="card__content">
+                    <div class="card__info">
+                        <div class="tag-container">
+                            <span class="tag tag--featured">Leadership</span>
+                            <span class="tag">MD/CEO</span>
+                        </div>
+                        <h2 class=" reveal-r">Tunde Abraham</h2>
+                        <p class=" reveal-l">With over 35 years of experience, leading the vision of the next generation of engineering.</p>
+                    </div>
+                    <div class="card__image">
+                        <img src="./img/CEO.png" alt="Sarah">
+                    </div>
+                </div>
+            </li>
+
+            <li class="card">
+                <div class="card__content">
+                    <div class="card__info">
+                        <div class="tag-container">
+                            <span class="tag">Operations</span>
+                            <span class="tag">COO</span>
+                        </div>
+                        <h2 class=" reveal-r">Gloria Kazeem</h2>
+                        <p class=" reveal-l">An experienced business and operations executive, driving strategy, performance, and growth.
+</p>
+                    </div>
+                    <div class="card__image">
+                        <img src="./img/COO.png" alt="David">
+                    </div>
+                </div>
+            </li>
+
+            <li class="card">
+                <div class="card__content">
+                    <div class="card__info">
+                        <div class="tag-container">
+                            <span class="tag">Engineering</span>
+                            <span class="tag">Chief Engineer</span>
+                        </div>
+                        <h2 class=" reveal-r">Kefas Samuel</h2>
+                        <p class=" reveal-l">Electrical engineer with 30+ years’ experience in port engineering and infrastructure management, delivering large-scale operations, maintenance, and strategic improvements.</p>
+                    </div>
+                    <div class="card__image">
+                        <img src="./img/ENGR.png" alt="Amara">
+                    </div>
+                </div>
+            </li>
+
+            <li class="card">
+                <div class="card__content">
+                    <div class="card__info">
+                        <div class="tag-container">
+                            <span class="tag">Legal</span>
+                            <span class="tag">Secretary</span>
+                        </div>
+                        <h2 class=" reveal-r">Jennifer Dipnap</h2>
+                        <p class=" reveal-l">Expertise in corporate governance, compliance, and legal administration, supporting board operations, risk management, and organizational efficiency.</p>
+                    </div>
+                    <div class="card__image">
+                        <img src="./img/SEC.png" alt="Leo">
+                    </div>
+                </div>
+            </li>
+
+            <li class="card">
+                <div class="card__content">
+                    <div class="card__info">
+                        <div class="tag-container">
+                            <span class="tag">InfoTECH</span>
+                            <span class="tag">Head, IT</span>
+                        </div>
+                        <h2 class=" reveal-r">Benneth George</h2>
+                        <p class=" reveal-l">Expert in secure technology strategy and digital transformation, delivering efficient, scalable IT operations aligned with business goals.</p>
+                    </div>
+                    <div class="card__image">
+                        <img src="./img/ICT.png" alt="Iris">
+                    </div>
+                </div>
+            </li>
+
+            <li class="card">
+                <div class="card__content">
+                    <div class="card__info">
+                        <div class="tag-container">
+                            <span class="tag">Finance</span>
+                            <span class="tag">Head, Finance</span>
+                        </div>
+                        <h2 class=" reveal-r">Pelumi Jayeoba</h2>
+                        <p class=" reveal-l">Finance professional with 9+ years’ experience in accounting, auditing, and financial management, driving compliance, reporting excellence, and strategic financial performance.</p>
+                    </div>
+                    <div class="card__image">
+                        <img src="./img/ACCT.png" alt="Iris">
+                    </div>
+                </div>
+            </li>
+        </ul>
+</section>
+
+    <section class="pillars-section" id="strategy">
+        <div class="pillars-container">
+            <div class="pillars-left">
+                <div class="section_title reveal-t">
+                    <span class="badge">Strategic Pillars</span>
+                    <h2> We are Value-Driven <br>& <span class="highlight-gradient">Mission-Led</span></h2>
+                </div>
+                <p class="reveal-l">At our core, we are a value-driven organization dedicated to bridging the infrastructural gap within the oil and gas industry. By integrating state-of-the-art technological equipment with expert services and support, we empower our clients to achieve sustainable growth and operational excellence.</p>
+            </div>
+
+            <div class="pillars-grid">
+                <div class="pillar-card reveal-d">
+                    <div class="pillar_card_title">
+                        <div class="pillar-icon"><i class="fa-solid fa-gem"></i></div>
+                        <h2>Our Values</h2>
+                    </div>
+                    
+                    <ul>
+                        <li>Excellence</li>
+                        <li>Professionalism</li>
+                        <li>Innovation</li>
+                        <li>Customer Focus</li>
+                        <li>Integrity</li>
+                    </ul>
+                </div>
+
+                <div class="pillar-card reveal-l">
+                    <div class="pillar_card_title">
+                        <div class="pillar-icon"><i class="fa-solid fa-eye"></i></div>
+                        <h3>Our Vision</h3>
+                    </div>
+                    <p>To bridge the infrastructure gap in the oil and gas industry by providing state-of-the-art technological equipment, services, and support.</p>
+                </div>
+
+                <div class="pillar-card reveal-d">
+                    <div class="pillar_card_title">
+                        <div class="pillar-icon"><i class="fa-solid fa-rocket"></i></div>
+                        <h3>Our Mission</h3>
+                    </div>
+                    <p>To provide our clients with innovative and cost-effective solutions, through continuous development of a focused and dedicated workforce.</p>
+                </div>
+
+                <div class="pillar-card reveal-l">
+                    <div class="pillar_card_title">
+                        <div class="pillar-icon"><i class="fa-solid fa-award"></i></div>
+                        <h3>Experience</h3>
+                    </div>
+                    <ul>
+                        <li>100% Indigenous Ownership</li>
+                        <li>Proven Industrial Impact</li>
+                        <li>Uncompromising Quality</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</section>
+
+
+    <section class="expertise-section" id="expertise">
+        <div class="section_title">
+            <div><span class="badge">Specialized Solutions</span></div>
+            <h1>Our Expertise</h1>
+        </div>
+
+        <div class="main-card">
+            <div class="close-btn" onclick="resetSlider()">✕</div>
+
+            <div class="image-viewport" id="slider-images">
+                <img src="./img/exp-bg.avif" class="slide-img active" id="default-img" alt="Default">
+                <img src="./img/power-engineering.avif" class="slide-img" alt="Power / Industrial Engineering">
+                <img src="./img/consult.avif" class="slide-img" alt="Consultancy / Engineering">
+                <img src="./img/supply-maintenance.avif" class="slide-img" alt="Supply and Maintenance">
+                <img src="./img/construction.avif" class="slide-img" alt="Construction Services">
+                <img src="./img/marine.avif" class="slide-img" alt="Marine Engineering">
+                <img src="./img/weatherproof.avif" class="slide-img" alt="weatherproofing">
+            </div>
+
+            <div class="sidebar">
+                <div class="tab" onclick="activateSlider(1)">
+                    <div class="tab-header"><div class="icon-circle">+</div><span class="tab-title">Power / Industrial Engineering</span></div>
+                    <div class="tab-content">We provide expert, NEPA-compliant maintenance for transformers, RMUs, panels, and overhead lines. By combining specialized technical personnel with detailed system studies, we ensure optimal grid reliability and infrastructure performance.</div>
+                </div>
+
+                <div class="tab" onclick="activateSlider(2)">
+                    <div class="tab-header"><div class="icon-circle">+</div><span class="tab-title">Engineering Consultancy</span></div>
+                    <div class="tab-content">Led by chartered specialists, ESL delivers integrated Electrical and ICT engineering solutions desined to drive productivity and revenue growth. By providing reliable, cost-effective consultancy, they help customers expand their market reach and contribute to broader socio-economic development through technical excellence.</div>
+                </div>
+
+                <div class="tab" onclick="activateSlider(3)">
+                    <div class="tab-header"><div class="icon-circle">+</div><span class="tab-title">Supply and Maintenance</span></div>
+                    <div class="tab-content">We provide comprehensive supply, installation, and maintenance for HVAC systems (chillers, cold rooms, and split units) and power generators of all capacities. Additionally, we supply essential rural electrification materials, including transformers, poles, and line conductors, to support robust infrastructure development.</div>
+                </div>
+
+                <div class="tab" onclick="activateSlider(4)">
+                    <div class="tab-header"><div class="icon-circle">+</div><span class="tab-title">Construction</span></div>
+                    <div class="tab-content">We provide comprehensive construction services including remodeling, landscaping, and road maintenance, alongside executing third-party designs. We also ensure seamless project delivery through the supply of essential construction materials and heavy equipment tailored to client needs.</div>
+                </div>
+
+                <div class="tab" onclick="activateSlider(5)">
+                    <div class="tab-header"><div class="icon-circle">+</div><span class="tab-title">Marine Engineering</span></div>
+                    <div class="tab-content">We provide comprehensive marine services, including offshore equipment maintenance, dredging support, and vessel supplies. Our consultancy expertise spans the full project lifecycle, from feasibility studies and site preparation to tender management and onsite supervision, ensuring technical precision and operational control.</div>
+                </div>
+
+                <div class="tab" onclick="activateSlider(6)">
+                    <div class="tab-header"><div class="icon-circle">+</div><span class="tab-title">Weather - proofing</span></div>
+                    <div class="tab-content">We provide specialized protection services including waterproofing for concrete and asbestos roofs, rust-proofing for metal structures and marine vessels, and damp-proofing using high-quality membranes to prevent rising damp in foundations.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="accomplishment-card" id="projects">
+            <div class="section_title">
+                <div><span class="badge">Projects</span></div>
+                <h1>Executed Work & Initiatives</h1>
+            </div>
+            
+            <button class="accordion-btn" id="accordionToggle1">
+                Key Projects And Experience <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="accordion-content" id="accordionContent1">
+                <div class="list-container">
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Maintenance contract for electrical power distribution network equipment and devices for Nigerian Ports Authority (NPA) at Tin Can Island Port, Lagos State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Maintenance contract for electrical power distribution network equipment and devices for NPA at Apapa Substation 1-12, Lagos State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Maintenance contract for electrical power distribution network equipment and devices for NPA at Onne Port, Rivers State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Maintenance contract for electrical power distribution network equipment and third wharf devices for NPA at Apapa Substation A-D, Lagos State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Maintenance contract for electrical power distribution network equipment and devices for NPA at Calabar Port, Cross River State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Maintenance Contract for 20 Nos. Industrial/Domestic generators for NPA at Apapa & Ikoyi, Lagos State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Maintenance Contract for 15 Nos. generating sets for NPA at Kirikiri Terminal (Phases I & II) Tin Can Island Port, Lagos State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Maintenance contract for 13 Nos. heavy duty generating sets for NPA at Onne Port, Rivers State.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Maintenance contracts for 3 Nos. heavy duty generating sets for NPA at Warri Port, Delta State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Retainership maintenance and general Rust proofing and weatherproofing of structures for NPA at Apapa Wharf, Tin Can Port, Ijora Terminal, Onne Port and Warri Ports.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Weatherproofing and Maintenance works at various office installations for N.A.A. at Lagos, Port Harcourt and Kaduna, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Weatherproofing and Maintenance works at various office complex Workshops for N.I.T.E.L.S. in Lagos and Port Harcourt, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Weatherproofing and Maintenance works at various office complex for N.E.P.A. at Ijora power stations, Lagos State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Weatherproofing works at Mobil House, Victoria Island, Lagos for Mobil Oil Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Weatherproofing works at MTN Friendship House, Ikoyi, Lagos State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Main Power Substation - Replacement of matching current transformers for 33/11kv bus bar system for NPA at Apapa, Lagos State, Nigeria.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Re-roofing of the 33/11KV switch Room for NPA at Apapa, Lagos State, Nigeria.</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="accordion-btn" id="accordionToggle2">
+                Key Consultancy Works<i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="accordion-content" id="accordionContent2">
+                <div class="list-container">
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Afribank Plc Headquarter Building in Lagos.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">UBA Plc Headquarter Building in Ibadan.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Lagos State Water Corporation Headquarter Building in Lagos (World Bank Project).</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Lagos State Water Corporation Zonal and Area Offices located in several parts of Lagos State. </div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">NDIC Liaison Office, Abuja.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">NDIC Housing Estate Development, Abuja.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">NDIC Staff Housing within FHA Housing Abuja.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Nigeria Police Force Headquarter, Abuja.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Federal University of Agriculture, Abeokuta, Laboratory Building Complex.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Abubakar Tafawa Balewa University, Bauchi, School of Environmental Technology Building at the Main Campus.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Federal Polytechnics, Ede: all the Campus Buildings.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Afribank Plc, Ilorin and Calabar branches.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Ondo State University, Ado Ekiti: Master Plan Development.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">PTF M & E for all southwest States: Renovation of Secondary School (one from each senatorial District/Zone for all the 6 States).</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Osun State government Liaison Office, Abuja.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Installation and commission of Mini-Link microwave radio for Ericsson Nitel Odunlami and Ketu analog cell site, feasibility and radio path survey.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Installation and alignment of Vsat antennas for data and voice distribution for the Schlumberger Group, Warri.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Installation of all microwave communications facilities for the NLNG project locations, Port Harcourt, Rivers State.</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Construction and erection of 100ft mast (Nigeria Gas Company).</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Installation and commissioning of Motorola Vhf repeater system (Nigerian Ports Authority).</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Construction of 50m tower foundation (Nigeria Gas Cmpany).</div>
+                    </div>
+                    <div class="item">
+                        <div class="check-wrapper">
+                            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
+                        <div class="content">Presently, we are Pre-qualified to Provide 36MVA for Tin Can Island Port (NPA).</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Let's build something <b>Great</b> together.</h2>
+                <div style="margin-top: 40px;">
+                    <p><strong>Email:</strong> info@exactservicesltd.com</p>
+                    <p><strong>Office:</strong> +234-1-7749622</p>
+                </div>
+            </div>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group"><input type="text" placeholder="Full Name" required></div>
+                <div class="form-group"><input type="email" placeholder="Email Address" required></div>
+                <div class="form-group"><textarea rows="5" placeholder="Your Message" required></textarea></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Get in Touch</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<div class="modal" id="successModal">
+    <div class="modal-content-success">
+        <i class="fas fa-check-circle"></i>
+        <h3>Message Sent!</h3>
+        <p>Thank you for reaching out. Our team will contact you shortly.</p>
+        <button class="btn btn-primary" style="margin-top: 20px;" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-col">
+            <div class="logo" style="color: white; margin-bottom: 20px;">EXACT</div>
+            <p>Engineering excellence since 2010.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+                <li><a href="#expertise">Mechanical Design</a></li>
+                <li><a href="#expertise">Civil Infrastructure</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Newsletter</h4>
+            <form onsubmit="event.preventDefault(); showModal();">
+                <input type="email" placeholder="Email address" style="width: 100%; padding: 12px; border-radius: 5px; border: none; margin-bottom: 10px; background: #444; color: white;">
+                <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: 5px;">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        &copy; 2026 Exact Services Limited. All rights reserved.
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+<script>
+    // ========================================
+    // THEME TOGGLE LOGIC
+    // ========================================
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-theme');
+        localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+    });
+
+    if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-theme');
+
+    // ========================================
+    // MOBILE MENU NAVIGATION
+    // ========================================
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    const navLinks = document.querySelectorAll('nav a');
+
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hamburger.classList.toggle('open');
+        navMenu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+            navMenu.classList.remove('show');
+            hamburger.classList.remove('open');
+        }
+    });
+
+    // ========================================
+    // SCROLL SPY & ACTIVE NAV LINK
+    // ========================================
+    const sections = document.querySelectorAll('section');
+
+    function updateNavLinks() {
+        let current = "";
+        sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            if (window.pageYOffset >= sectionTop - 150) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach((link) => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // Typed JS
+    var typed = new Typed('#typed-element', {
+        strings: ["Engineering Excellence", "Technical Solutions", "Safety Compliance"],
+        typeSpeed: 50,
+        backSpeed: 25,
+        loop: true
+    });
+
+    // ========================================
+    // EXPERTISE SLIDER LOGIC
+    // ========================================
+    function activateSlider(index) {
+        const tabs = document.querySelectorAll('.tab');
+        const images = document.querySelectorAll('#slider-images .slide-img');
+        const currentActive = document.querySelector('#slider-images .slide-img.active');
+
+        if (tabs[index - 1].classList.contains('active')) return;
+
+        if (currentActive) {
+            currentActive.classList.remove('active');
+            currentActive.classList.add('exit-left');
+            setTimeout(() => currentActive.classList.remove('exit-left'), 1200);
+        }
+
+        tabs.forEach(tab => tab.classList.remove('active'));
+        tabs[index - 1].classList.add('active');
+
+        images[index].classList.remove('exit-left');
+        images[index].classList.add('active');
+    }
+
+    function resetSlider() {
+        const tabs = document.querySelectorAll('.tab');
+        const currentActive = document.querySelector('#slider-images .slide-img.active');
+        const defaultImg = document.getElementById('default-img');
+
+        if (defaultImg.classList.contains('active')) return;
+
+        tabs.forEach(tab => tab.classList.remove('active'));
+
+        if (currentActive) {
+            currentActive.classList.remove('active');
+            currentActive.classList.add('exit-left');
+            setTimeout(() => currentActive.classList.remove('exit-left'), 1200);
+        }
+
+        defaultImg.classList.remove('exit-left');
+        defaultImg.classList.add('active');
+    }
+
+    // ========================================
+    // ACCORDION LOGIC
+    // ========================================
+    const setupAccordion = (btnId, contentId) => {
+        const btn = document.getElementById(btnId);
+        const content = document.getElementById(contentId);
+
+        btn.addEventListener('click', () => {
+            const isOpen = !!content.style.maxHeight;
+
+            // Close all accordion contents and remove active state from all buttons
+            document.querySelectorAll('.accordion-content').forEach(c => {
+                c.style.maxHeight = null;
+            });
+            document.querySelectorAll('.accordion-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+
+            // If the clicked one was closed, open it; otherwise leave all closed
+            if (!isOpen) {
+                btn.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    };
+
+    setupAccordion('accordionToggle1', 'accordionContent1');
+    setupAccordion('accordionToggle2', 'accordionContent2');
+
+    // ========================================
+    // SCROLL EVENT HANDLER (OPTIMIZED)
+    // ========================================
+    let isScrolling = false;
+
+    window.addEventListener('scroll', () => {
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                updateNavLinks();
+                updateCardStacking();
+                revealElements();
+                isScrolling = false;
+            });
+            isScrolling = true;
+        }
+    });
+
+    // ========================================
+    // TYPEWRITING ANIMATION WITH SCROLLMAGIC   
+    // ========================================
+
+        $(document).ready(function() {
+            // Configuration matching your main.js
+            const myText = "We are Exact Services Limited"; 
+            const myTextLength = myText.length;
+            const controller = new ScrollMagic.Controller();
+
+            // The typing function that maps scroll progress to text length
+            function typing(displayedLength) {
+                if (displayedLength <= myTextLength) {
+                    $("#intro-text").text(myText.substring(0, displayedLength));
+                }
+            }
+
+            // ScrollMagic Scene configuration
+            const typewritingScene = new ScrollMagic.Scene({
+                triggerElement: "#intro-text",
+                triggerHook: 0.5, // Starts when the element hits the middle of the screen
+                duration: 400     // How many pixels of scrolling the animation lasts
+            })
+            .on('progress', function () {
+                // Calculate which character to show based on scroll progress (0 to 1)
+                let scrollProgress = Math.ceil(typewritingScene.progress() * myTextLength);
+                typing(scrollProgress);
+            })
+            .setPin('#intro-text') // Pins the element so it stays in place while typing
+            .addTo(controller);
+        });
+
+
+    // ========================================
+    // STACKING CARD ANIMATION
+    // ========================================
+    function updateCardStacking() {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card) => {
+            const rect = card.getBoundingClientRect();
+            const content = card.querySelector('.card__content');
+
+            if (rect.top <= 100) {
+                const progress = Math.min(Math.max(Math.abs(rect.top - 100) / 500, 0), 1);
+                const scale = 1 - (progress * 0.05);
+                const brightness = 1 - (progress * 0.4);
+
+                content.style.transform = `scale(${scale})`;
+                content.style.filter = `brightness(${brightness})`;
+            } else {
+                content.style.transform = `scale(1)`;
+                content.style.filter = `brightness(1)`;
+            }
+        });
+    }
+
+    // ========================================
+    // TEAM CARD INTERSECTION OBSERVER
+    // ========================================
+    const teamCards = document.querySelectorAll('.card');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+            else entry.target.classList.remove('active');
+        });
+    }, { threshold: 0.5 });
+
+    teamCards.forEach(card => observer.observe(card));
+
+    // ========================================
+    // SCROLL REVEAL ANIMATIONS
+    // ========================================
+    function revealElements() {
+        const reveals = document.querySelectorAll(".reveal-r, .reveal-l, .reveal-t, .reveal-d");
+
+        reveals.forEach(el => {
+            const elementTop = el.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            const revealPoint = 50;
+
+            if (elementTop < windowHeight - revealPoint) {
+                el.classList.add("active");
+            } else {
+                el.classList.remove("active");
+            }
+        });
+    }
+
+    window.addEventListener("load", revealElements);
+
+    // ========================================
+    // ABOUT MODAL LOGIC
+    // ========================================
+    const aboutModal = document.getElementById('aboutModal');
+    const openBtn = document.getElementById('about-read-more');
+    const closeBtn = document.getElementById('closeAboutModal');
+    const overlay = document.getElementById('modalOverlay');
+
+    const toggleModal = (show) => {
+        aboutModal.classList.toggle('active', show);
+        document.body.style.overflow = show ? 'hidden' : '';
+    };
+
+    if (openBtn) {
+        openBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleModal(true);
+        });
+    }
+
+    [closeBtn, overlay].forEach(el => {
+        if (el) el.addEventListener('click', () => toggleModal(false));
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape" && aboutModal.classList.contains('active')) {
+            toggleModal(false);
+        }
+    });
+
+    // ========================================
+    // CONTACT FORM & SUCCESS MODAL
+    // ========================================
+    const contactForm = document.getElementById('contactForm');
+    const modal = document.getElementById('successModal');
+
+    function showModal() {
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        showModal();
+        contactForm.reset();
+    });
+
+    // Hero Image Rotation
+    const heroCenterImg = document.querySelector('.hero-center img');
+    const heroImages = ['./img/home-img.png', './img/home-img1.png'];
+    let currentImageIndex = 0;
+
+    if (heroCenterImg) {
+        setInterval(() => {
+            heroCenterImg.style.opacity = '0';
+            setTimeout(() => {
+                currentImageIndex = (currentImageIndex + 1) % heroImages.length;
+                heroCenterImg.src = heroImages[currentImageIndex];
+                heroCenterImg.style.opacity = '1';
+            }, 400);
+        }, 10000);
+    }
+</script>
+
+</body>
+</html>
