@@ -89,6 +89,36 @@
         }
 
 
+        /* PRELOADER STYLES */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-body);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid #ccc;
+            border-top-color: var(--primary-purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* ========================================
            HEADER & NAVIGATION
            ======================================== */
@@ -1340,6 +1370,9 @@
     </style>
 </head>
 <body>
+<div id="preloader">
+    <div class="spinner"></div>
+</div>
 
 <header>
     <img href="index.html" src="./img/logo2.png" alt="Exact Services Logo" class="logo logo-desktop" loading="lazy" onerror="this.style.display='none'">
@@ -1991,6 +2024,15 @@
     });
 
     if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-theme');
+
+    // PRELOADER LOGIC
+    window.addEventListener('load', () => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            preloader.classList.add('loaded');
+            setTimeout(() => preloader.remove(), 600);
+        }
+    });
 
     // ========================================
     // MOBILE MENU NAVIGATION
