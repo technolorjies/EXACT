@@ -391,7 +391,23 @@
             text-transform: uppercase;
         }
 
-        
+        /* GAP BETWEEN SECTIONS */
+        /* use a pseudo-element to create a colored divider without affecting layout */
+        section + section {
+            margin-top: 12px;
+            position: relative;
+        }
+        section + section::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background: #bababa45;
+            pointer-events: none;
+        }
+
         /* ========================================
            TEXT TYPING ON SCROLL
            ======================================== */
@@ -446,6 +462,7 @@
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
+            margin-top: 50px;
             display: flex;
             align-items: center;
             gap: 5rem;
@@ -993,8 +1010,6 @@
             width: 60%;
             margin-left: 20%;
             padding: 80px 20px 80px 20px;
-            border-top: 1px solid #33333385;
-            border-bottom: 1px solid #33333385;
         }
 
         .accordion-btn {
@@ -1363,8 +1378,6 @@
             .accomplishment-card {
                 width: 100%;
                 margin-left: 0%;
-                border-top: 1px solid #33333385;
-                border-bottom: 1px solid #33333385;
             }
         }
     </style>
@@ -1439,7 +1452,7 @@
     </div>
 </section>
 
-<div class="about-modal" id="aboutModal">
+<section class="about-modal" id="aboutModal">
     <div class="modal-overlay" id="modalOverlay"></div>
     <div class="modal-content">
         <button class="modal-close" id="closeAboutModal" title="Close">
@@ -1462,7 +1475,7 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 
     <section class="team-section" id="team">
         <div class="section_title">
