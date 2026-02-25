@@ -1380,6 +1380,45 @@
                 margin-left: 0%;
             }
         }
+
+        /* back-to-top button */
+        #backToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            color: var(--primary-purple);
+            border: 1px solid var(--primary-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+            z-index: 2500;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        #backToTop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        #backToTop:hover {
+            transform: translateY(-2px);
+        }
+        @media (max-width: 768px) {
+            #backToTop {
+                bottom: 15px;
+                right: 15px;
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2341,7 +2380,27 @@
             }, 400);
         }, 10000);
     }
+
+    // back-to-top button functionality
+    window.addEventListener('DOMContentLoaded', () => {
+        const backToTop = document.getElementById('backToTop');
+        if (!backToTop) return;
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 150) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
 </script>
 
+<button id="backToTop" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+</button>
 </body>
 </html>
