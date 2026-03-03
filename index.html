@@ -302,7 +302,8 @@
             height: auto;
             filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
             opacity: 1;
-            transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* allow smooth opacity + scale transitions for zoom effect */
+            transition: opacity 1.2s ease, transform 1.2s ease;
         }
 
         .hero-right h2 {
@@ -1667,7 +1668,7 @@
                             <span class="tag tag--featured">Leadership</span>
                             <span class="tag">MD/CEO</span>
                         </div>
-                        <h2 class=" reveal-r">Tunde Abrahams</h2>
+                        <h2 class=" reveal-r">Tunde Abraham</h2>
                         <p class=" reveal-l">With over 35 years of experience, leading the vision of the next generation of engineering.</p>
                     </div>
                     <div class="card__image">
@@ -2515,22 +2516,25 @@
     // ========================================
     // CONTACT FORM & SUCCESS MODAL
     // ========================================
-    const contactForm = document.getElementById('contactForm');
+    // use the existing form element (id changed to modernContactForm)
+    const contactForm = document.getElementById('modernContactForm');
     const modal = document.getElementById('successModal');
 
     function showModal() {
-        modal.classList.add('active');
+        if (modal) modal.classList.add('active');
     }
 
     function closeModal() {
-        modal.classList.remove('active');
+        if (modal) modal.classList.remove('active');
     }
 
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        showModal();
-        contactForm.reset();
-    });
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showModal();
+            contactForm.reset();
+        });
+    }
 
     // Hero Image Rotation
     const heroCenterImg = document.querySelector('.hero-center img');
@@ -2539,13 +2543,22 @@
 
     if (heroCenterImg) {
         setInterval(() => {
+            // fade out current image
             heroCenterImg.style.opacity = '0';
+            heroCenterImg.style.transform = 'scale(1.1)';
             setTimeout(() => {
                 currentImageIndex = (currentImageIndex + 1) % heroImages.length;
                 heroCenterImg.src = heroImages[currentImageIndex];
+                // start slightly zoomed-out and transparent
+                heroCenterImg.style.transform = 'scale(0.9)';
+                heroCenterImg.style.opacity = '0';
+                // force reflow to apply initial state
+                void heroCenterImg.offsetWidth;
+                // zoom in to normal size and fade in
+                heroCenterImg.style.transform = 'scale(1)';
                 heroCenterImg.style.opacity = '1';
-            }, 400);
-        }, 10000);
+            }, 1200); // allow fade-out/scale-up to complete
+        }, 8000);  /* swap every 8 seconds */
     }
 
     // back-to-top button functionality
@@ -2577,4 +2590,3 @@
 </button>
 </body>
 </html>
-
