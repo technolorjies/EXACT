@@ -420,59 +420,7 @@
             border-top: 1px solid rgba(0,0,0,0.05);
         }
 
-        .logo-slider {
-            display: flex;
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        }
 
-        .logo-track {
-            display: flex;
-            width: calc(250px * 14); /* Adjust based on logo count */
-            animation: scroll-left 30s linear infinite;
-        }
-
-        .logo-track:hover {
-            animation-play-state: paused;
-        }
-
-        .slide {
-            width: 250px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .slide img {
-            max-width: 150px;
-            max-height: 50px;
-            filter: grayscale(100%);
-            opacity: 0.6;
-            transition: var(--transition);
-        }
-
-        .slide img:hover {
-            filter: grayscale(0%);
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        @keyframes scroll-left {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-250px * 7)); } /* Should be half the width of the track */
-        }
-
-        /* Responsive adjustment */
-        @media (max-width: 768px) {
-            .slide { width: 180px; }
-            @keyframes scroll-left {
-                100% { transform: translateX(calc(-180px * 7)); }
-            }
-        }
 
 
 
@@ -1650,32 +1598,6 @@
             <div class="btn-group">
                 <a href="#contact" class="btn_hero btn-primary reveal-l">Let's talk</a>
                 <a href="#expertise" class="btn_hero btn-outline reveal-r">Our Services</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="partners-section reveal-d">
-        <div class="section_title" style="margin-bottom: 2rem;">
-            <span class="badge">Our Partners & Clients</span>
-        </div>
-        
-        <div class="logo-slider">
-            <div class="logo-track">
-                <div class="slide"><img src="./img/partner1.png" alt="Partner 1"></div>
-                <div class="slide"><img src="./img/partner2.png" alt="Partner 2"></div>
-                <div class="slide"><img src="./img/partner3.png" alt="Partner 3"></div>
-                <div class="slide"><img src="./img/partner4.png" alt="Partner 4"></div>
-                <div class="slide"><img src="./img/partner5.png" alt="Partner 5"></div>
-                <div class="slide"><img src="./img/partner6.png" alt="Partner 6"></div>
-                <div class="slide"><img src="./img/partner7.png" alt="Partner 7"></div>
-                
-                <div class="slide"><img src="./img/partner1.png" alt="Partner 1"></div>
-                <div class="slide"><img src="./img/partner2.png" alt="Partner 2"></div>
-                <div class="slide"><img src="./img/partner3.png" alt="Partner 3"></div>
-                <div class="slide"><img src="./img/partner4.png" alt="Partner 4"></div>
-                <div class="slide"><img src="./img/partner5.png" alt="Partner 5"></div>
-                <div class="slide"><img src="./img/partner6.png" alt="Partner 6"></div>
-                <div class="slide"><img src="./img/partner7.png" alt="Partner 7"></div>
             </div>
         </div>
     </section>
